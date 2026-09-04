@@ -5,6 +5,7 @@
 </p>
 
 **A free, security-hardened Android shell for [osirisai.live](https://osirisai.live)** — the open OSIRIS common operating picture (COP). Use the live map, layers, intel, markets, search, and RECON tools on phones and tablets with native splash, offline handling, share, and optional location.
+This is provide free, as is, its purpose is to use the excellent osirisai.live , Osiris platofrm in a mobile android wrapper, with some ux/ui optimisation tools for mobile and tablets.
 
 | | |
 |---|---|

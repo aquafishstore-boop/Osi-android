@@ -24,6 +24,7 @@ RUN curl -fsSL "https://services.gradle.org/distributions/gradle-${GRADLE_VERSIO
 # Android command-line tools
 RUN mkdir -p ${ANDROID_HOME}/cmdline-tools \
     && curl -fsSL https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o /tmp/cmdtools.zip \
+    && echo "2d2d50857e4eb553af5a6dc3ad507a17adf43d115264b1afc116f95c92e5e258  /tmp/cmdtools.zip" | sha256sum -c - \
     && unzip -q /tmp/cmdtools.zip -d ${ANDROID_HOME}/cmdline-tools \
     && mv ${ANDROID_HOME}/cmdline-tools/cmdline-tools ${ANDROID_HOME}/cmdline-tools/latest \
     && rm /tmp/cmdtools.zip
@@ -44,5 +45,8 @@ RUN gradle --no-daemon assembleDebug testDebugUnitTest \
     && cp app/build/outputs/apk/debug/*.apk /artifacts/app-debug.apk \
     && (cp -r app/build/test-results /artifacts/test-results || true) \
     && ls -la /artifacts
+
+RUN useradd -U -u 1000 appuser && chown -R 1000:1000 /workspace /artifacts
+USER 1000
 
 CMD ["ls", "-la", "/artifacts"]
