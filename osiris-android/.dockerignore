@@ -1,0 +1,15 @@
+.dockerignore
+artifacts/
+e2e/node_modules/
+e2e/results/
+e2e/playwright-report/
+e2e/test-results/
+.idea/
+.gradle/
+**/build/
+local.properties
+keystore.properties
+*.apk
+*.aab
+*.jks
+*.keystore

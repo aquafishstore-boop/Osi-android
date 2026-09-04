@@ -21,18 +21,25 @@ android {
     }
 
     val keystorePropsFile = rootProject.file("keystore.properties")
-    val keystoreProps = java.util.Properties()
+    val keystoreProps = mutableMapOf<String, String>()
     if (keystorePropsFile.exists()) {
-        keystorePropsFile.inputStream().use { keystoreProps.load(it) }
+        keystorePropsFile.readLines().forEach { raw ->
+            val line = raw.trim()
+            if (line.isEmpty() || line.startsWith("#")) return@forEach
+            val idx = line.indexOf('=')
+            if (idx > 0) {
+                keystoreProps[line.substring(0, idx).trim()] = line.substring(idx + 1).trim()
+            }
+        }
     }
 
     signingConfigs {
         if (keystorePropsFile.exists()) {
             create("release") {
-                storeFile = file(keystoreProps["storeFile"] as String)
-                storePassword = keystoreProps["storePassword"] as String
-                keyAlias = keystoreProps["keyAlias"] as String
-                keyPassword = keystoreProps["keyPassword"] as String
+                storeFile = file(keystoreProps.getValue("storeFile"))
+                storePassword = keystoreProps.getValue("storePassword")
+                keyAlias = keystoreProps.getValue("keyAlias")
+                keyPassword = keystoreProps.getValue("keyPassword")
             }
         }
     }

@@ -1,0 +1,20 @@
+services:
+  android-build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: osiris-android-builder:local
+    volumes:
+      - ./artifacts:/out
+    entrypoint: ["/bin/bash", "-lc"]
+    command:
+      - |
+        set -euo pipefail
+        mkdir -p /out
+        cp -f /artifacts/app-debug.apk /out/app-debug.apk
+        if [ -d /artifacts/test-results ]; then
+          rm -rf /out/test-results
+          cp -a /artifacts/test-results /out/test-results
+        fi
+        ls -lah /out
+        echo "APK ready: /out/app-debug.apk"

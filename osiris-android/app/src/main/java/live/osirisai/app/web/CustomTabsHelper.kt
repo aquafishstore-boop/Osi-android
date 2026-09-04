@@ -12,9 +12,9 @@ import live.osirisai.app.security.UrlAllowlist
 object CustomTabsHelper {
 
     fun open(context: Context, url: String) {
-        if (!UrlAllowlist.isHttps(Uri.parse(url))) return
-        // Only open https URLs; prefer Custom Tabs over in-app WebView for non-primary hosts
+        if (!UrlAllowlist.isNavigationAllowed(url) && !url.startsWith("https://", ignoreCase = true)) return
         val uri = Uri.parse(url)
+        if (uri.scheme?.equals("https", ignoreCase = true) != true) return
         if (uri.host.isNullOrBlank()) return
 
         val color = ContextCompat.getColor(context, R.color.osiris_black)

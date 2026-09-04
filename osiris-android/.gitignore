@@ -3,6 +3,7 @@
 *.aar
 *.ap_
 *.aab
+artifacts/
 
 # Files for the ART/Dalvik VM
 *.dex
@@ -34,3 +35,9 @@ keystore.properties
 
 # Logs
 *.log
+
+# Playwright
+e2e/node_modules/
+e2e/results/
+e2e/playwright-report/
+e2e/test-results/

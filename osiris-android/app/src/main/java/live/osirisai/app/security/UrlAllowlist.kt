@@ -1,10 +1,11 @@
 package live.osirisai.app.security
 
-import android.net.Uri
+import java.net.URI
 import java.util.Locale
 
 /**
  * Strict host allowlist for WebView navigation and resource loads.
+ * Uses java.net.URI so unit tests run on the JVM without Robolectric.
  * Primary origin is osirisai.live; additional HTTPS hosts are required for tiles/CDN assets.
  */
 object UrlAllowlist {
@@ -22,7 +23,6 @@ object UrlAllowlist {
      * Keep conservative — unknown hosts open in Custom Tabs instead of the WebView.
      */
     private val resourceHosts: Set<String> = navigationHosts + setOf(
-        // MapLibre / basemap tiles commonly used by OSIRIS
         "basemaps.cartocdn.com",
         "a.basemaps.cartocdn.com",
         "b.basemaps.cartocdn.com",
@@ -34,7 +34,6 @@ object UrlAllowlist {
         "a.tile.openstreetmap.org",
         "b.tile.openstreetmap.org",
         "c.tile.openstreetmap.org",
-        // Fonts / static assets occasionally pulled by Next.js
         "fonts.googleapis.com",
         "fonts.gstatic.com",
         "cdn.jsdelivr.net",
@@ -42,19 +41,29 @@ object UrlAllowlist {
     )
 
     fun normalizeHost(host: String?): String? =
-        host?.lowercase(Locale.US)?.trim()?.takeIf { it.isNotEmpty() }
+        host?.lowercase(Locale.US)?.trim()?.trimEnd('.')?.takeIf { it.isNotEmpty() }
 
-    fun isHttps(uri: Uri): Boolean =
+    fun parseUri(url: String?): URI? {
+        if (url.isNullOrBlank()) return null
+        return runCatching { URI(url.trim()) }.getOrNull()
+    }
+
+    fun isHttps(uri: URI): Boolean =
         uri.scheme.equals("https", ignoreCase = true)
 
-    fun isBlockedScheme(uri: Uri): Boolean {
+    fun isBlockedScheme(uri: URI): Boolean {
         val scheme = uri.scheme?.lowercase(Locale.US) ?: return true
         return scheme in BLOCKED_SCHEMES
     }
 
+    /** Android WebView Uri adapter without depending on android.net in pure logic tests. */
+    fun isBlockedScheme(scheme: String?): Boolean {
+        val s = scheme?.lowercase(Locale.US) ?: return true
+        return s in BLOCKED_SCHEMES
+    }
+
     fun isNavigationAllowed(url: String?): Boolean {
-        if (url.isNullOrBlank()) return false
-        val uri = runCatching { Uri.parse(url) }.getOrNull() ?: return false
+        val uri = parseUri(url) ?: return false
         if (isBlockedScheme(uri)) return false
         if (!isHttps(uri)) return false
         val host = normalizeHost(uri.host) ?: return false
@@ -63,19 +72,17 @@ object UrlAllowlist {
 
     fun isResourceAllowed(url: String?): Boolean {
         if (url.isNullOrBlank()) return false
-        // Allow data: and blob: for MapLibre / canvas internals
         when {
             url.startsWith("data:", ignoreCase = true) -> return true
             url.startsWith("blob:", ignoreCase = true) -> return true
             url.startsWith("about:blank", ignoreCase = true) -> return true
         }
-        val uri = runCatching { Uri.parse(url) }.getOrNull() ?: return false
+        val uri = parseUri(url) ?: return false
         if (isBlockedScheme(uri)) return false
         if (!isHttps(uri)) return false
         val host = normalizeHost(uri.host) ?: return false
         if (host in resourceHosts) return true
         if (host.endsWith(".$PRIMARY_HOST")) return true
-        // CartoCDN wildcard patterns
         if (host.endsWith(".cartocdn.com")) return true
         if (host.endsWith(".tile.openstreetmap.org")) return true
         return false
@@ -86,7 +93,6 @@ object UrlAllowlist {
     fun sanitizeSharePayload(raw: String?, maxLen: Int = 2_000): String? {
         if (raw.isNullOrBlank()) return null
         val trimmed = raw.trim().take(maxLen)
-        // Reject obvious script injection / control chars except newline/tab
         if (trimmed.any { ch -> ch.isISOControl() && ch != '\n' && ch != '\t' }) {
             return null
         }
@@ -95,7 +101,7 @@ object UrlAllowlist {
 
     fun isSafeShareUrl(url: String?): Boolean {
         if (url.isNullOrBlank()) return false
-        val uri = runCatching { Uri.parse(url) }.getOrNull() ?: return false
+        val uri = parseUri(url) ?: return false
         if (!isHttps(uri)) return false
         val host = normalizeHost(uri.host) ?: return false
         return host == PRIMARY_HOST || host.endsWith(".$PRIMARY_HOST")

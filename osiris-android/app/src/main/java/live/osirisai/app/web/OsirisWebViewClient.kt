@@ -27,7 +27,7 @@ class OsirisWebViewClient(
         val url = request.url?.toString()
         if (url.isNullOrBlank()) return true
 
-        if (UrlAllowlist.isBlockedScheme(request.url)) {
+        if (UrlAllowlist.isBlockedScheme(request.url.scheme)) {
             onEvent(WebLoadEvent.NavigationBlocked(url))
             return true
         }
@@ -37,7 +37,7 @@ class OsirisWebViewClient(
         }
 
         // External HTTPS → Custom Tabs via shell
-        if (UrlAllowlist.isHttps(request.url)) {
+        if (request.url.scheme.equals("https", ignoreCase = true)) {
             onEvent(WebLoadEvent.ExternalUrl(url))
             return true
         }
