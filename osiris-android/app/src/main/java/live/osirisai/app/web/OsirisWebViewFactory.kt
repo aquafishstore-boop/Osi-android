@@ -31,7 +31,11 @@ object OsirisWebViewFactory {
             overScrollMode = WebView.OVER_SCROLL_NEVER
 
             settings.apply {
-                // Required for MapLibre COP on osirisai.live; mitigated by UrlAllowlist + SSL fail-closed + Safe Browsing.
+                // Disabled per Aikido security autofix to mitigate code-injection/exfiltration risk.
+                // NOTE: osirisai.live's MapLibre rendering previously relied on JavaScript being
+                // enabled here; verify MapLibre still renders correctly with JS disabled before
+                // shipping, or re-enable with the existing UrlAllowlist + SSL fail-closed + Safe
+                // Browsing mitigations if MapLibre breaks.
                 javaScriptEnabled = false
                 domStorageEnabled = true
                 databaseEnabled = false
