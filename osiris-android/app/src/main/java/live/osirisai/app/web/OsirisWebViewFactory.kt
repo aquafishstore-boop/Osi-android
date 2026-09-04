@@ -32,7 +32,7 @@ object OsirisWebViewFactory {
 
             settings.apply {
                 // Required for MapLibre COP on osirisai.live; mitigated by UrlAllowlist + SSL fail-closed + Safe Browsing.
-                javaScriptEnabled = true
+                javaScriptEnabled = false
                 domStorageEnabled = true
                 databaseEnabled = false
                 allowFileAccess = false
