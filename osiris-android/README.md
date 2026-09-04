@@ -2,7 +2,7 @@
 
 A polished, security-hardened Android client for the [OSIRIS](https://osirisai.live) global intelligence platform.
 
-This is provide free, as is, its purpose is to use the esxcelent osirisai.live , Osiris platofrm in a mobile andriod wrapper, with some ux/ui optimisation tools for mobile and tablets.
+This is provide free, as is, its purpose is to use the excellent osirisai.live , Osiris platofrm in a mobile andriod wrapper, with some ux/ui optimisation tools for mobile and tablets.
 
 The app embeds `https://osirisai.live` in a lockdown WebView and adds native splash, offline/error handling, back navigation, share & optional location bridges, and an About sheet. Map controls (layers, intel, RECON, search) come from OSIRIS’s existing mobile UI.
 
