@@ -45,4 +45,7 @@ RUN gradle --no-daemon assembleDebug testDebugUnitTest \
     && (cp -r app/build/test-results /artifacts/test-results || true) \
     && ls -la /artifacts
 
+RUN useradd -U -u 1000 appuser && chown -R 1000:1000 /workspace /artifacts
+USER 1000
+
 CMD ["ls", "-la", "/artifacts"]
