@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OSIRIS</string>
+    <string name="splash_tagline">Global Intelligence Platform</string>
+    <string name="connecting">Establishing secure connection…</string>
+    <string name="offline_title">Offline</string>
+    <string name="offline_body">No network connection. OSIRIS needs the internet to load live feeds.</string>
+    <string name="error_title">Connection failed</string>
+    <string name="error_body">Could not reach osirisai.live. Check your connection and try again.</string>
+    <string name="ssl_error_title">Secure connection failed</string>
+    <string name="ssl_error_body">TLS verification failed for this host. For your safety, loading was blocked.</string>
+    <string name="retry">Retry</string>
+    <string name="about">About</string>
+    <string name="about_title">OSIRIS Mobile</string>
+    <string name="about_body">A secure Android shell for the open-source OSIRIS intelligence platform. Map, layers, RECON, and feeds run on osirisai.live.</string>
+    <string name="about_attribution">Upstream OSIRIS is MIT-licensed open source by SimplifAI Soul. This wrapper is an independent mobile client.</string>
+    <string name="about_ethics">Responsible use: only point RECON / active scan tools at infrastructure you own or have written authorization to test.</string>
+    <string name="open_docs">Documentation</string>
+    <string name="clear_cache">Clear WebView cache</string>
+    <string name="cache_cleared">Cache cleared</string>
+    <string name="exit_confirm_title">Leave OSIRIS?</string>
+    <string name="exit_confirm_body">Close the application.</string>
+    <string name="exit">Exit</string>
+    <string name="cancel">Cancel</string>
+    <string name="location_rationale">Location is optional and used only to center the map on you when you request it.</string>
+    <string name="share_chooser">Share via</string>
+    <string name="version_fmt">Version %1$s (%2$d)</string>
+    <string name="webview_cd">OSIRIS common operating picture</string>
+</resources>

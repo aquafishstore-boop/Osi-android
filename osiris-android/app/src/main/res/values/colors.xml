@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="osiris_black">#FF0A0A0A</color>
+    <color name="osiris_charcoal">#FF121212</color>
+    <color name="osiris_gold">#FFE8B84A</color>
+    <color name="osiris_gold_dim">#FFB89030</color>
+    <color name="osiris_cyan">#FF4ECBDE</color>
+    <color name="osiris_text">#FFE8E6E1</color>
+    <color name="osiris_muted">#FF8A8780</color>
+    <color name="ic_launcher_background">#FF0A0A0A</color>
+</resources>

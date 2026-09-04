@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Osiris" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/osiris_black</item>
+        <item name="android:navigationBarColor">@color/osiris_black</item>
+        <item name="android:windowBackground">@color/osiris_black</item>
+        <item name="android:colorPrimary">@color/osiris_gold</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.Osiris.Splash" parent="Theme.Osiris">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+</resources>
